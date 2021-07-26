@@ -4,10 +4,10 @@ import reportWebVitals from './reportWebVitals';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/App';
-import {createReduxStore} from './store';
+import {store} from './store';
 
 render(
-  <Provider store={createReduxStore()}>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('root')

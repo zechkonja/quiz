@@ -1,24 +1,35 @@
 // $FlowFixMe
-import '../App.css';
-import { useDispatch } from 'react-redux';
-import {addTodo} from '../actions/gameSettings';
+import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import HomeGameSettings from "../views/HomeGameSettings";
+import Game from "../views/Game";
+import {useEffect} from "react";
+import {getCategories} from '../actions/gameSettings';
+import GameModal from "./GameModal";
 
 const App = () => {
   const dispatch = useDispatch();
-  function sub(x: ?string): string {
-    if (x) {
-      return x;
-    }
-    return "default string";
-  }
-  return (
-    <div className="App">
-      <header className="App-header">
-        {sub('nemanja')}
-        <button type="button" onClick={() => dispatch(addTodo('nemanjaa'))}>Click Me!</button>
+  const startGame = useSelector((state) => state.gameSettings.startGame);
+  const showModal = useSelector((state) => state.gameSettings.showModal);
 
-      </header>
+  useEffect(() => {
+    getCat();
+  },[]);
+
+  const getCat = () => {
+    dispatch(getCategories());
+  }
+
+  return (
+    <>
+    <div className="App">
+      <h2>Quiz</h2>
+      <div className="App-body">
+        {startGame ? <Game/> : <HomeGameSettings/>}
+      </div>
     </div>
+      <GameModal show={showModal} handleCloseModal={() => alert('close')}/>
+  </>
   );
 }
 

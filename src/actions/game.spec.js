@@ -1,4 +1,4 @@
-import * as actions from '../../src/actions/game';
+import * as actions from './game';
 
 describe('todo actions', () => {
   it('addTodo should create GAME_ADD_TODO_TEST action', () => {

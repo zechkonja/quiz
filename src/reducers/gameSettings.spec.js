@@ -1,15 +1,15 @@
-import game from '../../src/reducers/game';
+import gameSettings from './gameSettings';
 
-describe('game reducer', () => {
+describe('gameSettings reducer', () => {
   it('should handle initial state', () => {
     expect(
-      game(undefined, {})
+      gameSettings(undefined, {})
     ).toEqual([])
   })
 
   it('should handle ADD_TODO', () => {
     expect(
-      game([], {
+      gameSettings([], {
         type: 'ADD_TODO',
         text: 'Run the tests',
         id: 0
@@ -23,7 +23,7 @@ describe('game reducer', () => {
     ])
 
     expect(
-      game([
+      gameSettings([
         {
           text: 'Run the tests',
           completed: false,
@@ -47,7 +47,7 @@ describe('game reducer', () => {
     ])
 
     expect(
-      game([
+      gameSettings([
         {
           text: 'Run the tests',
           completed: false,
@@ -81,7 +81,7 @@ describe('game reducer', () => {
 
   it('should handle TOGGLE_TODO', () => {
     expect(
-      game([
+      gameSettings([
         {
           text: 'Run the tests',
           completed: false,

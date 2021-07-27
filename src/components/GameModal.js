@@ -1,12 +1,10 @@
 import React from "react";
-import {Button, Modal} from 'react-bootstrap';
+import { Button, Modal } from "react-bootstrap";
 
-
-const GameModal = ({show}) => {
-
+const GameModal = ({ show }) => {
   const handleClose = () => {
     window.location.reload(false);
-  }
+  };
 
   return (
     <>
@@ -28,11 +26,13 @@ const GameModal = ({show}) => {
           </ul>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>Start new Quiz</Button>
+          <Button variant="primary" onClick={handleClose}>
+            Start new Quiz
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
-}
+};
 
 export default GameModal;

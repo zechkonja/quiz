@@ -1,50 +1,63 @@
-export const INIT_GAME = 'INIT_GAME';
-export const UPDATE_GAME_SETTINGS = 'UPDATE_GAME_SETTINGS';
-export const UPDATE_GAME_QUESTIONS = 'UPDATE_GAME_QUESTIONS';
-export const UPDATE_GAME_PLAYERS = 'UPDATE_GAME_PLAYERS';
-export const UPDATE_GAME_QUESTION = 'UPDATE_GAME_QUESTION';
-export const UPDATE_ACTIVE_GAME_QUESTION = 'UPDATE_ACTIVE_GAME_QUESTION';
-export const UPDATE_GAME_QUESTION_PREV = 'UPDATE_GAME_QUESTION_PREV';
-export const UPDATE_ACTIVE_GAME_QUESTION_PREV = 'UPDATE_ACTIVE_GAME_QUESTION_PREV';
-export const FINISH_GAME = 'FINISH_GAME';
+export const INIT_GAME = "INIT_GAME";
+export const UPDATE_GAME_SETTINGS = "UPDATE_GAME_SETTINGS";
+export const UPDATE_GAME_QUESTIONS = "UPDATE_GAME_QUESTIONS";
+export const UPDATE_GAME_PLAYERS = "UPDATE_GAME_PLAYERS";
+export const UPDATE_GAME_QUESTION = "UPDATE_GAME_QUESTION";
+export const UPDATE_ACTIVE_GAME_QUESTION = "UPDATE_ACTIVE_GAME_QUESTION";
+export const UPDATE_GAME_QUESTION_PREV = "UPDATE_GAME_QUESTION_PREV";
+export const UPDATE_ACTIVE_GAME_QUESTION_PREV =
+  "UPDATE_ACTIVE_GAME_QUESTION_PREV";
+export const FINISH_GAME = "FINISH_GAME";
+export const UPDATE_USER_ANSWER = "UPDATE_USER_ANSWER";
+export const VALIDATE_USER_ANSWER = "VALIDATE_USER_ANSWER";
+export const UPDATE_USER_QUESTION_ANSWER = "UPDATE_USER_QUESTION_ANSWER";
 
 export const initGame = () => ({
   type: INIT_GAME,
-})
+});
 
-export const setGamePlayers = players => ({
+export const setGamePlayers = (players) => ({
   type: UPDATE_GAME_PLAYERS,
-  value: players
-})
+  value: players,
+});
 
-export const updateGameSettings = ()=> ({
-  type: UPDATE_GAME_SETTINGS
-})
+export const updateGameSettings = () => ({
+  type: UPDATE_GAME_SETTINGS,
+});
 
-export const updateGameQuestion = questions => ({
+export const updateGameQuestion = (questions) => ({
   type: UPDATE_GAME_QUESTIONS,
-  value: questions
-})
+  value: questions,
+});
 
 export const updateQuestion = () => ({
-  type: UPDATE_GAME_QUESTION
-})
+  type: UPDATE_GAME_QUESTION,
+});
 
 export const updateQuestionPrev = () => ({
-  type: UPDATE_GAME_QUESTION_PREV
-})
+  type: UPDATE_GAME_QUESTION_PREV,
+});
 
-export const updateActiveQuestion = value => ({
+export const updateActiveQuestion = (value) => ({
   type: UPDATE_ACTIVE_GAME_QUESTION,
-  value
-})
+  value,
+});
 
-export const updateActiveQuestionPrev = value => ({
+export const updateActiveQuestionPrev = (value) => ({
   type: UPDATE_ACTIVE_GAME_QUESTION_PREV,
-  value
-})
+  value,
+});
 
 export const finishGame = () => ({
   type: FINISH_GAME,
-})
+});
 
+export const updateUserAnswer = (value) => ({
+  type: UPDATE_USER_ANSWER,
+  value,
+});
+
+export const updateUserQuestionAnswer = (value) => ({
+  type: UPDATE_USER_QUESTION_ANSWER,
+  value,
+});

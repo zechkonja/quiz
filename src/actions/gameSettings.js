@@ -1,41 +1,41 @@
-export const UPDATE_PLAYER_NUMBER = 'UPDATE_PLAYER_NUMBER';
-export const UPDATE_START_GAME = 'UPDATE_START_GAME';
-export const GET_GAME_CATEGORIES = 'GET_GAME_CATEGORIES';
-export const UPDATE_GAME_CATEGORIES = 'UPDATE_GAME_CATEGORIES';
-export const UPDATE_GAME_CATEGORY = 'UPDATE_GAME_CATEGORY';
-export const UPDATE_GAME_QUESTION_NUMBER = 'UPDATE_GAME_QUESTION_NUMBER';
-export const UPDATE_SHOW_MODAL = 'UPDATE_SHOW_MODAL';
+export const UPDATE_PLAYER_NUMBER = "UPDATE_PLAYER_NUMBER";
+export const UPDATE_START_GAME = "UPDATE_START_GAME";
+export const GET_GAME_CATEGORIES = "GET_GAME_CATEGORIES";
+export const UPDATE_GAME_CATEGORIES = "UPDATE_GAME_CATEGORIES";
+export const UPDATE_GAME_CATEGORY = "UPDATE_GAME_CATEGORY";
+export const UPDATE_GAME_QUESTION_NUMBER = "UPDATE_GAME_QUESTION_NUMBER";
+export const UPDATE_SHOW_MODAL = "UPDATE_SHOW_MODAL";
 
-export const updateNumberOfPlayers = number => ({
+export const updateNumberOfPlayers = (number) => ({
   type: UPDATE_PLAYER_NUMBER,
-  value: number
-})
+  value: number,
+});
 
-export const updateGameStart = value => ({
+export const updateGameStart = (value) => ({
   type: UPDATE_START_GAME,
-  value
-})
+  value,
+});
 
 export const getCategories = () => ({
   type: GET_GAME_CATEGORIES,
-})
+});
 
-export const updateCategories = categories => ({
+export const updateCategories = (categories) => ({
   type: UPDATE_GAME_CATEGORIES,
-  value: categories
-})
+  value: categories,
+});
 
-export const updateGameCategory = category => ({
+export const updateGameCategory = (category) => ({
   type: UPDATE_GAME_CATEGORY,
-  value: category
-})
+  value: category,
+});
 
-export const updateQuestionNumber = questionNumber => ({
+export const updateQuestionNumber = (questionNumber) => ({
   type: UPDATE_GAME_QUESTION_NUMBER,
-  value: questionNumber
-})
+  value: questionNumber,
+});
 
-export const updateShowModal = value => ({
+export const updateShowModal = (value) => ({
   type: UPDATE_SHOW_MODAL,
-  value
-})
+  value,
+});

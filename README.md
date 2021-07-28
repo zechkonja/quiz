@@ -1,6 +1,15 @@
 # Quiz game for Hooloovoo
 
 
+## Tech stack
+
+For implementation of this quiz i used:
+
+ - React
+ - Redux
+ - Sagas
+ - Fetch
+
 ## Available Scripts
 
 In the project directory, you can run:

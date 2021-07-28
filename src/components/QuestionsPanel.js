@@ -11,7 +11,12 @@ import {
 } from "../actions/game";
 import React, { useState, useEffect } from "react";
 import { getAllAnswers, getAnswers } from "../reducers/game";
-import { getRandomInt, getRandomIntBetween, generalTimer } from "../lib/utils";
+import {
+  getRandomInt,
+  getRandomIntBetween,
+  generalTimer,
+  shuffle,
+} from "../lib/utils";
 
 const randomTime1 = getRandomIntBetween(2, generalTimer);
 const randomTime2 = getRandomIntBetween(2, generalTimer);
@@ -28,7 +33,13 @@ const QuestionsPanel = () => {
   const p2 = useSelector((state) => state.game.players[2]);
   const p3 = useSelector((state) => state.game.players[3]);
   const answers = useSelector((state) => getAllAnswers(state));
+  const [questionOptions, setQuestionOptions] = useState([]);
   const everybodyAnswered = useSelector((state) => getAnswers(state));
+
+  useEffect(() => {
+    // reorder answers
+    setQuestionOptions(shuffle(answers));
+  }, [answers]);
 
   let timer1;
   // run general timer
@@ -128,7 +139,7 @@ const QuestionsPanel = () => {
           <Col>
             <b>{activeQuestion + 1}.</b> {questions[activeQuestion].question}
             <AnswersContainer disabled={everybodyAnswered || timer === 0}>
-              {answers.map((answer, i) => (
+              {questionOptions.map((answer, i) => (
                 <Form.Check
                   key={i}
                   name={`group${activeQuestion}`}

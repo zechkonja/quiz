@@ -1,14 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import Game from "./Game";
-import { createReduxStore } from "../store";
+import HomeGameSettings from "./HomeGameSettings";
+import { store } from "../store";
 import { Provider } from "react-redux";
 
 test("renders learn react link", () => {
   render(
-    <Provider store={createReduxStore()}>
-      <Game />
+    <Provider store={store}>
+      <HomeGameSettings />
     </Provider>
   );
-  const linkElement = screen.getByText(/Game started/i);
+  const linkElement = screen.getByText(/Choose game settings/i);
   expect(linkElement).toBeInTheDocument();
 });

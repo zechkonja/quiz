@@ -7,7 +7,7 @@ import {
   UPDATE_SHOW_MODAL,
 } from "../actions/gameSettings";
 
-const initialState = {
+export const initialState = {
   showModal: false,
   startGame: false,
   gameCategories: [],

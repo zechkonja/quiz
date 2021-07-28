@@ -8,7 +8,7 @@ import {
 } from "../actions/game";
 import { generalTimer } from "../lib/utils";
 
-const initialState = {
+export const initialState = {
   game: {},
   questions: [],
   activeQuestion: 0,

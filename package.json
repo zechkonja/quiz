@@ -47,11 +47,14 @@
     "@babel/cli": "^7.14.8",
     "@babel/core": "^7.14.8",
     "@babel/preset-flow": "^7.14.5",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.31.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "flow-bin": "^0.156.0",
     "prettier": "2.3.2",
-    "redux-devtools": "^3.7.0"
+    "redux-devtools": "^3.7.0",
+    "redux-mock-store": "^1.5.4"
   }
 }

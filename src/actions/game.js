@@ -1,5 +1,4 @@
 export const INIT_GAME = "INIT_GAME";
-export const UPDATE_GAME_SETTINGS = "UPDATE_GAME_SETTINGS";
 export const UPDATE_GAME_QUESTIONS = "UPDATE_GAME_QUESTIONS";
 export const UPDATE_GAME_PLAYERS = "UPDATE_GAME_PLAYERS";
 export const UPDATE_GAME_QUESTION = "UPDATE_GAME_QUESTION";
@@ -10,7 +9,6 @@ export const UPDATE_ACTIVE_GAME_QUESTION_PREV =
 export const FINISH_GAME = "FINISH_GAME";
 export const UPDATE_USER_ANSWER = "UPDATE_USER_ANSWER";
 export const VALIDATE_USER_ANSWER = "VALIDATE_USER_ANSWER";
-export const UPDATE_USER_QUESTION_ANSWER = "UPDATE_USER_QUESTION_ANSWER";
 export const UPDATE_QUESTION_TIMER = "UPDATE_QUESTION_TIMER";
 export const UPDATE_PLAYERS_SCORE = "UPDATE_PLAYERS_SCORE";
 
@@ -21,10 +19,6 @@ export const initGame = () => ({
 export const setGamePlayers = (players) => ({
   type: UPDATE_GAME_PLAYERS,
   value: players,
-});
-
-export const updateGameSettings = () => ({
-  type: UPDATE_GAME_SETTINGS,
 });
 
 export const updateGameQuestion = (questions) => ({
@@ -56,11 +50,6 @@ export const finishGame = () => ({
 
 export const updateUserAnswer = (value) => ({
   type: UPDATE_USER_ANSWER,
-  value,
-});
-
-export const updateUserQuestionAnswer = (value) => ({
-  type: UPDATE_USER_QUESTION_ANSWER,
   value,
 });
 

@@ -60,4 +60,20 @@ const gameSettings = (state = initialState, action) => {
   }
 };
 
+export function getStartGame(state) {
+  return state.gameSettings.startGame;
+}
+
+export function getShowModal(state) {
+  return state.gameSettings.showModal;
+}
+
+export function getPlayerNumber(state) {
+  return state.gameSettings.playerNumber;
+}
+
+export function getGameCategories(state) {
+  return state.gameSettings.gameCategories;
+}
+
 export default gameSettings;

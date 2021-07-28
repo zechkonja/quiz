@@ -1,4 +1,5 @@
-// $FlowFixMe
+// @flow
+import * as React from "react";
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Pagination, Form, Row, Col } from "react-bootstrap";
@@ -9,8 +10,8 @@ import {
   updateUserAnswer,
   updateTimer,
 } from "../actions/game";
-import React, { useState, useEffect } from "react";
-import { getAllAnswers, getAnswers } from "../reducers/game";
+import { useState, useEffect } from "react";
+import { getAllAnswers, getAnswers, getTimer, getActiveQuestion, getQuestions, getPlayer } from "../reducers/game";
 import {
   getRandomInt,
   getRandomIntBetween,
@@ -22,18 +23,18 @@ const randomTime1 = getRandomIntBetween(2, generalTimer);
 const randomTime2 = getRandomIntBetween(2, generalTimer);
 const randomTime3 = getRandomIntBetween(2, generalTimer);
 
-const QuestionsPanel = () => {
+const QuestionsPanel = (): React.Node => {
   const dispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState("");
-  const timer = useSelector((state) => state.game.timer);
-  const activeQuestion = useSelector((state) => state.game.activeQuestion);
-  const questions = useSelector((state) => state.game.questions);
-  const me = useSelector((state) => state.game.players[0]);
-  const p1 = useSelector((state) => state.game.players[1]);
-  const p2 = useSelector((state) => state.game.players[2]);
-  const p3 = useSelector((state) => state.game.players[3]);
-  const answers = useSelector((state) => getAllAnswers(state));
   const [questionOptions, setQuestionOptions] = useState([]);
+  const timer = useSelector((state) => getTimer(state));
+  const activeQuestion = useSelector((state) => getActiveQuestion(state));
+  const questions = useSelector((state) => getQuestions(state));
+  const me = useSelector((state) => getPlayer(state, 0));
+  const p1 = useSelector((state) => getPlayer(state, 1));
+  const p2 = useSelector((state) => getPlayer(state, 2));
+  const p3 = useSelector((state) => getPlayer(state,3));
+  const answers = useSelector((state) => getAllAnswers(state));
   const everybodyAnswered = useSelector((state) => getAnswers(state));
 
   useEffect(() => {

@@ -4,9 +4,7 @@ export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
 
-  // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-    // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
@@ -30,8 +28,4 @@ export function getRandomInt(max) {
 
 export function getRandomIntBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-export function getRandomItem(items) {
-  return items[Math.floor(Math.random() * items.length)];
 }

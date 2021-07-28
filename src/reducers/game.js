@@ -2,7 +2,6 @@ import {
   UPDATE_GAME_QUESTIONS,
   UPDATE_GAME_PLAYERS,
   UPDATE_ACTIVE_GAME_QUESTION,
-  UPDATE_USER_QUESTION_ANSWER,
   UPDATE_QUESTION_TIMER,
   UPDATE_PLAYERS_SCORE,
 } from "../actions/game";
@@ -36,21 +35,6 @@ const gameSettings = (state = initialState, action) => {
         activeQuestion: action.value,
       };
     }
-    case UPDATE_USER_QUESTION_ANSWER: {
-      return {
-        ...state,
-        players: state.players.map((p) => {
-          if (p.id === action.value.id) {
-            p.answers[action.value.questionId].questionNumber =
-              action.value.questionId;
-            p.answers[action.value.questionId].userAnswer = action.value.value;
-            p.answers[action.value.questionId].answerTime =
-              action.value.answerTime;
-          }
-          return p;
-        }),
-      };
-    }
     case UPDATE_QUESTION_TIMER: {
       return {
         ...state,
@@ -68,6 +52,19 @@ const gameSettings = (state = initialState, action) => {
   }
 };
 
+export function getTimer(state) {
+  return state.game.timer;
+}
+export function getActiveQuestion(state) {
+  return state.game.activeQuestion;
+}
+export function getQuestions(state) {
+  return state.game.questions;
+}
+export function getPlayer(state, playerNumber) {
+  return state.game.players[playerNumber];
+}
+
 export function getAllAnswers(state) {
   const all = state.game.questions[state.game.activeQuestion].incorrect_answers;
   if (
@@ -77,7 +74,6 @@ export function getAllAnswers(state) {
   ) {
     all.push(state.game.questions[state.game.activeQuestion].correct_answer);
   }
-  // missing reordering shuffle
   return all;
 }
 

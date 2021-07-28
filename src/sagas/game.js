@@ -1,6 +1,5 @@
 import { call, put, takeLatest, select } from "redux-saga/effects";
 import {
-  updateGameSettings,
   updateGameQuestion,
   setGamePlayers,
   INIT_GAME,
@@ -10,7 +9,6 @@ import {
   updateActiveQuestion,
   UPDATE_USER_ANSWER,
   VALIDATE_USER_ANSWER,
-  updateUserQuestionAnswer,
   updatePlayersScore,
   updateTimer,
 } from "../actions/game";
@@ -72,7 +70,6 @@ function* initGame(action) {
     }
 
     yield put(setGamePlayers(players));
-    yield put(updateGameSettings());
     yield put(updateGameStart(true));
   } catch (e) {
     yield put({ type: "INIT GAME FAILED", message: e.message });
@@ -110,15 +107,18 @@ function* finishGame(action) {
 
 function* updateAnswer(action) {
   try {
-    yield put(
-      updateUserQuestionAnswer({
-        id: action.value.id,
-        option: action.value.option,
-        value: action.value.value,
-        questionId: action.value.questionId,
-        answerTime: action.value.time,
-      })
-    );
+    const players = yield select(playersState);
+
+    const updatedPlayers = players.map((p) => {
+      if (p.id === action.value.id) {
+        p.answers[action.value.questionId].questionNumber =
+          action.value.questionId;
+        p.answers[action.value.questionId].userAnswer = action.value.value;
+        p.answers[action.value.questionId].answerTime = action.value.answerTime;
+      }
+      return p;
+    });
+    yield put(updatePlayersScore(updatedPlayers));
   } catch (e) {
     yield put({ type: "UPDATE ANSWER FAILED", message: e.message });
   }
@@ -126,11 +126,6 @@ function* updateAnswer(action) {
 
 function* validateAnswer(action) {
   try {
-    // ○ Tacan odgovor: 10p
-    // ○ Netacan odgovor: -5p
-    // ○ Tacan odgovor i takmicar je odgovorio prvi: 15p
-    // ○ Vreme je isteklo a ljudski takmicar nije odgovorio: -10p
-
     const activeQuestion = yield select(activeQuestionState);
     const questions = yield select(questionsState);
     const players = yield select(playersState);
@@ -143,6 +138,7 @@ function* validateAnswer(action) {
     });
 
     // correct/incorrect answer
+    // first/last answered
     const updatedPlayers = players.map((p, i) => {
       if (
         p.answers.filter(

@@ -1,20 +1,21 @@
-// $FlowFixMe
-
+// @flow
+import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   updateNumberOfPlayers,
   updateGameCategory,
   updateQuestionNumber,
 } from "../actions/gameSettings";
+import {getPlayerNumber, getGameCategories} from '../reducers/gameSettings';
 import { initGame } from "../actions/game";
 import "../components/App.css";
 import { Button, Form } from "react-bootstrap";
 
-const HomeGameSettings = () => {
+const HomeGameSettings = (): React.Node => {
   const dispatch = useDispatch();
-  const playerNumber = useSelector((state) => state.gameSettings.playerNumber);
+  const playerNumber = useSelector((state) => getPlayerNumber(state));
   const gameCategories = useSelector(
-    (state) => state.gameSettings.gameCategories
+    (state) => getGameCategories(state)
   );
   const handleSubmit = (event) => {
     event.preventDefault();

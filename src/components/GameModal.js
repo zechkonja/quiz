@@ -1,8 +1,15 @@
-// $FlowFixMe
-import React from "react";
+// @flow
+import * as React from 'react';
 import { Button, Modal } from "react-bootstrap";
 
-const GameModal = ({ show, rankedPlayers, handleClose }) => {
+type Props = {
+  show: boolean,
+  rankedPlayers: Array<Object>,
+  handleClose: () => void
+}
+
+
+const GameModal = (props: Props): React.Node => {
   const handleStartNew = () => {
     window.location.reload(false);
   };
@@ -10,8 +17,8 @@ const GameModal = ({ show, rankedPlayers, handleClose }) => {
   return (
     <>
       <Modal
-        show={show}
-        onHide={handleClose}
+        show={props.show}
+        onHide={props.handleClose}
         backdrop="static"
         keyboard={false}
       >
@@ -20,7 +27,7 @@ const GameModal = ({ show, rankedPlayers, handleClose }) => {
         </Modal.Header>
         <Modal.Body>
           <ul>
-            {rankedPlayers.map((p, i) => (
+            {props.rankedPlayers.map((p, i) => (
               <li key={i}>
                 {p.name}, score: {p.score}
               </li>

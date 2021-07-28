@@ -3,23 +3,26 @@ import player from "../assets/player.jpg";
 import styled from "styled-components";
 import { Image, Row, Col } from "react-bootstrap";
 
-const Player = ({ name, score }) => {
+const Player = ({ name, score, answer, time, answered }) => {
   return (
-    <Container>
+    <Container answered={answered}>
       <Row>
         <Col>
+          <Image roundedCircle width={70} height={70} src={player} />
           <div>{name}</div>
           <div>Score: {score}</div>
-          <Image roundedCircle width={100} height={100} src={player} />
         </Col>
         <Col>
-          <div> My answer: Economics, Politics</div>
+          <div>Answer: {answer}</div>
+          <div>Time: {time}</div>
         </Col>
       </Row>
     </Container>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  background-color: ${(props) => (props.answered ? "#535b6b" : "transparent")};
+`;
 
 export default Player;

@@ -11,6 +11,8 @@ export const FINISH_GAME = "FINISH_GAME";
 export const UPDATE_USER_ANSWER = "UPDATE_USER_ANSWER";
 export const VALIDATE_USER_ANSWER = "VALIDATE_USER_ANSWER";
 export const UPDATE_USER_QUESTION_ANSWER = "UPDATE_USER_QUESTION_ANSWER";
+export const UPDATE_QUESTION_TIMER = "UPDATE_QUESTION_TIMER";
+export const UPDATE_PLAYERS_SCORE = "UPDATE_PLAYERS_SCORE";
 
 export const initGame = () => ({
   type: INIT_GAME,
@@ -59,5 +61,15 @@ export const updateUserAnswer = (value) => ({
 
 export const updateUserQuestionAnswer = (value) => ({
   type: UPDATE_USER_QUESTION_ANSWER,
+  value,
+});
+
+export const updateTimer = (value) => ({
+  type: UPDATE_QUESTION_TIMER,
+  value,
+});
+
+export const updatePlayersScore = (value) => ({
+  type: UPDATE_PLAYERS_SCORE,
   value,
 });

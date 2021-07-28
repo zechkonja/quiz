@@ -2,29 +2,84 @@
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Pagination, Form, Row, Col } from "react-bootstrap";
-import { shuffle } from "../lib/utils";
+import styled from "styled-components";
 import {
   updateQuestion,
-  updateQuestionPrev,
   finishGame,
   updateUserAnswer,
+  updateTimer,
 } from "../actions/game";
-import Answers from "./Answers";
-import React, { useState } from "react";
-import { getAllAnswers } from "../reducers/game";
+import React, { useState, useEffect } from "react";
+import { getAllAnswers, getAnswers } from "../reducers/game";
+import { getRandomInt, getRandomIntBetween, generalTimer } from "../lib/utils";
+
+const randomTime1 = getRandomIntBetween(2, generalTimer);
+const randomTime2 = getRandomIntBetween(2, generalTimer);
+const randomTime3 = getRandomIntBetween(2, generalTimer);
 
 const QuestionsPanel = () => {
   const dispatch = useDispatch();
   const [selectedValue, setSelectedValue] = useState("");
+  const timer = useSelector((state) => state.game.timer);
   const activeQuestion = useSelector((state) => state.game.activeQuestion);
   const questions = useSelector((state) => state.game.questions);
   const me = useSelector((state) => state.game.players[0]);
-
+  const p1 = useSelector((state) => state.game.players[1]);
+  const p2 = useSelector((state) => state.game.players[2]);
+  const p3 = useSelector((state) => state.game.players[3]);
   const answers = useSelector((state) => getAllAnswers(state));
+  const everybodyAnswered = useSelector((state) => getAnswers(state));
 
-  const handlePrevious = () => {
-    dispatch(updateQuestionPrev());
-  };
+  let timer1;
+  // run general timer
+  useEffect(() => {
+    timer1 = setTimeout(() => dispatch(updateTimer(timer - 1)), 1000);
+    if (timer === 0 || everybodyAnswered) {
+      clearTimeout(timer1);
+    }
+
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, [timer]);
+
+  // select random answers at random moment
+  useEffect(() => {
+    if (p1 && timer === randomTime1) {
+      const randomAnswer = getRandomInt(3);
+      handleCheckboxUpdate({
+        questionId: activeQuestion,
+        option: randomAnswer,
+        value: answers[randomAnswer],
+        id: p1.id,
+        time: generalTimer - randomTime1,
+      });
+    }
+  }, [timer]);
+  useEffect(() => {
+    if (p2 && timer === randomTime2) {
+      const randomAnswer = getRandomInt(3);
+      handleCheckboxUpdate({
+        questionId: activeQuestion,
+        option: randomAnswer,
+        value: answers[randomAnswer],
+        id: p2.id,
+        time: generalTimer - randomTime2,
+      });
+    }
+  }, [timer]);
+  useEffect(() => {
+    if (p3 && timer === randomTime3) {
+      const randomAnswer = getRandomInt(3);
+      handleCheckboxUpdate({
+        questionId: activeQuestion,
+        option: randomAnswer,
+        value: answers[randomAnswer],
+        id: p3.id,
+        time: generalTimer - randomTime3,
+      });
+    }
+  }, [timer]);
 
   const handleNext = () => {
     setSelectedValue("");
@@ -36,13 +91,10 @@ const QuestionsPanel = () => {
   const paginationBasic = (
     <div>
       <Pagination>
-        <Pagination.Prev
-          onClick={handlePrevious}
-          disabled={activeQuestion === 0}
+        <Pagination.Next
+          disabled={timer > 0 && !everybodyAnswered}
+          onClick={handleNext}
         >
-          Previous
-        </Pagination.Prev>
-        <Pagination.Next onClick={handleNext}>
           {activeQuestion < questions.length - 1 ? "Next" : "Finish"}
         </Pagination.Next>
       </Pagination>
@@ -50,8 +102,8 @@ const QuestionsPanel = () => {
     </div>
   );
 
-  const handleCheckboxUpdate = ({ questionId, option, value }) => {
-    dispatch(updateUserAnswer({ questionId, option, value, id: me.id }));
+  const handleCheckboxUpdate = ({ questionId, option, value, id, time }) => {
+    dispatch(updateUserAnswer({ questionId, option, value, id, time }));
   };
 
   const updateValue = (e) => {
@@ -59,17 +111,23 @@ const QuestionsPanel = () => {
     const option = e.target.getAttribute("answer");
     const value = e.target.value;
     setSelectedValue(value);
-    handleCheckboxUpdate({ questionId, option, value });
+    handleCheckboxUpdate({
+      questionId,
+      option,
+      value,
+      id: me.id,
+      time: generalTimer - timer,
+    });
   };
 
   return (
     <div className="App">
       <div className="App-body">
-        Question {activeQuestion} of {questions.length}
+        Question {activeQuestion + 1} of {questions.length}
         <Row>
           <Col>
-            <b>{activeQuestion}.</b> {questions[activeQuestion].question}
-            <div>
+            <b>{activeQuestion + 1}.</b> {questions[activeQuestion].question}
+            <AnswersContainer disabled={everybodyAnswered || timer === 0}>
               {answers.map((answer, i) => (
                 <Form.Check
                   key={i}
@@ -84,16 +142,20 @@ const QuestionsPanel = () => {
                   checked={selectedValue === answer}
                 />
               ))}
-
-              {/*<Answers answers={allAnswers()} activeQuestion={activeQuestion} handleCheckboxUpdate={handleCheckboxUpdate} />*/}
-            </div>
+            </AnswersContainer>
           </Col>
-          <Col>Timer: 15s</Col>
+          <Col>
+            Timer: {timer > 0 ? `${timer}s` : <b style={{ color: "red" }}>0</b>}
+          </Col>
         </Row>
         {paginationBasic}
       </div>
     </div>
   );
 };
+
+const AnswersContainer = styled.div`
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+`;
 
 export default QuestionsPanel;

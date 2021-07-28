@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
 
-const GameModal = ({ show }) => {
-  const handleClose = () => {
+const GameModal = ({ show, rankedPlayers, handleClose }) => {
+  const handleStartNew = () => {
     window.location.reload(false);
   };
 
@@ -19,14 +19,15 @@ const GameModal = ({ show }) => {
         </Modal.Header>
         <Modal.Body>
           <ul>
-            <li>Nemanja, score: 20</li>
-            <li>Player 3, score: 16</li>
-            <li>Player 1, score: 3</li>
-            <li>Player 2, score: -20</li>
+            {rankedPlayers.map((p, i) => (
+              <li key={i}>
+                {p.name}, score: {p.score}
+              </li>
+            ))}
           </ul>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleStartNew}>
             Start new Quiz
           </Button>
         </Modal.Footer>

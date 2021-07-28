@@ -11,16 +11,20 @@ import {
   UPDATE_USER_ANSWER,
   VALIDATE_USER_ANSWER,
   updateUserQuestionAnswer,
+  updatePlayersScore,
+  updateTimer,
 } from "../actions/game";
 import { updateGameStart, updateShowModal } from "../actions/gameSettings";
 import { createGame } from "../services/quizService";
-import { generateId } from "../lib/utils";
+import { generalTimer, generateId } from "../lib/utils";
 
 const numberOfPlayersState = (state) => state.gameSettings.playerNumber;
 const questionNumberState = (state) => state.gameSettings.questionNumber;
 const gameCategoryIdState = (state) => state.gameSettings.gameCategoryId;
 const questionTypeState = (state) => state.gameSettings.questionType;
 const activeQuestionState = (state) => state.game.activeQuestion;
+const questionsState = (state) => state.game.questions;
+const playersState = (state) => state.game.players;
 
 function* initGame(action) {
   try {
@@ -43,6 +47,7 @@ function* initGame(action) {
       if (i === 0) {
         players.push({
           id: generateId(),
+          type: "human",
           name: "Me",
           score: 0,
           answers: [
@@ -54,7 +59,8 @@ function* initGame(action) {
       } else {
         players.push({
           id: generateId(),
-          name: `Player ${i++}`,
+          type: "computer",
+          name: `Player ${i}`,
           score: 0,
           answers: [
             ...response.results.map((q, i) => {
@@ -76,7 +82,9 @@ function* initGame(action) {
 function* updateActiveGameQuestion(action) {
   try {
     let activeQuestion = yield select(activeQuestionState);
+    yield call(validateAnswer);
     yield put(updateActiveQuestion(++activeQuestion));
+    yield put(updateTimer(generalTimer));
   } catch (e) {
     yield put({ type: "UPDATE NEXT QUESTION GAME FAILED", message: e.message });
   }
@@ -93,6 +101,7 @@ function* updateActiveGameQuestionPrev(action) {
 
 function* finishGame(action) {
   try {
+    yield call(validateAnswer);
     yield put(updateShowModal(true));
   } catch (e) {
     yield put({ type: "FINISH GAME FAILED", message: e.message });
@@ -107,7 +116,7 @@ function* updateAnswer(action) {
         option: action.value.option,
         value: action.value.value,
         questionId: action.value.questionId,
-        answerTime: 3000, // update time
+        answerTime: action.value.time,
       })
     );
   } catch (e) {
@@ -117,10 +126,50 @@ function* updateAnswer(action) {
 
 function* validateAnswer(action) {
   try {
-    // vidi da li je tacan odgoovr
-    // primeni rulove - prvi - poslednji
-    // izracunaj score
-    //yield put(updateUserQuestionAnswer({action.value.activeQuestionId,}));
+    // ○ Tacan odgovor: 10p
+    // ○ Netacan odgovor: -5p
+    // ○ Tacan odgovor i takmicar je odgovorio prvi: 15p
+    // ○ Vreme je isteklo a ljudski takmicar nije odgovorio: -10p
+
+    const activeQuestion = yield select(activeQuestionState);
+    const questions = yield select(questionsState);
+    const players = yield select(playersState);
+
+    const playerAnsweredFirst = players.reduce((prev, curr) => {
+      return prev.answers[activeQuestion].answerTime <
+        curr.answers[activeQuestion].answerTime
+        ? prev
+        : curr;
+    });
+
+    // correct/incorrect answer
+    const updatedPlayers = players.map((p, i) => {
+      if (
+        p.answers.filter(
+          (a) => a.userAnswer === questions[activeQuestion].correct_answer
+        ).length > 0
+      ) {
+        p.score += 10;
+        if (
+          playerAnsweredFirst.answers[activeQuestion].userAnswer ===
+          questions[activeQuestion].correct_answer
+        ) {
+          p.score += 5;
+        }
+      } else {
+        if (
+          p.type === "human" &&
+          p.answers[activeQuestion].userAnswer.length === 0
+        ) {
+          p.score -= 10;
+        } else {
+          p.score -= 5;
+        }
+      }
+      return p;
+    });
+
+    yield put(updatePlayersScore(updatedPlayers));
   } catch (e) {
     yield put({ type: "VALIDATE ANSWER FAILED", message: e.message });
   }

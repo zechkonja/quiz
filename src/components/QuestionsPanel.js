@@ -45,10 +45,11 @@ const QuestionsPanel = (): React.Node => {
   let timer1;
   // run general timer
   useEffect(() => {
-    timer1 = setTimeout(() => dispatch(updateTimer(timer - 1)), 1000);
     if (timer === 0 || everybodyAnswered) {
       clearTimeout(timer1);
+      return;
     }
+    timer1 = setTimeout(() => dispatch(updateTimer(timer - 1)), 1000);
 
     return () => {
       clearTimeout(timer1);
@@ -67,8 +68,6 @@ const QuestionsPanel = (): React.Node => {
         time: generalTimer - randomTime1,
       });
     }
-  }, [timer]);
-  useEffect(() => {
     if (p2 && timer === randomTime2) {
       const randomAnswer = getRandomInt(3);
       handleCheckboxUpdate({
@@ -79,8 +78,6 @@ const QuestionsPanel = (): React.Node => {
         time: generalTimer - randomTime2,
       });
     }
-  }, [timer]);
-  useEffect(() => {
     if (p3 && timer === randomTime3) {
       const randomAnswer = getRandomInt(3);
       handleCheckboxUpdate({
